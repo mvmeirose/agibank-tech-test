@@ -5,7 +5,6 @@ import java.util.List;
 
 import agibank.tech.test.model.File;
 import agibank.tech.test.service.FileService;
-import agibank.tech.test.util.IdentityTypeEnum;
 
 public class Parser implements IFileParser {
 
@@ -48,13 +47,13 @@ public class Parser implements IFileParser {
 
                 switch (data[0]) {
 	                case SALESMAN:
-	                	file.addSalesman(SalesmanParser.parse(line));
+	                	file.addSalesman(SalesmanParser.parse(data));
 	                    break;
 	                case CUSTOMER:
-	                	file.addCustomer(CustomerParser.parse(line));
+	                	file.addCustomer(CustomerParser.parse(data));
 	                    break;
 	                case SALE:
-	                	file.addSale(SaleParser.parse(line));
+	                	file.addSale(SaleParser.parse(data));
 	                    break;
                 }
             }

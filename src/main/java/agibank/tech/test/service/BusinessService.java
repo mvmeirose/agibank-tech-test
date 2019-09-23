@@ -19,21 +19,9 @@ public class BusinessService {
         readPath = homeDir.concat(readPath);
         writePath =  homeDir.concat(writePath);
         
-        File dataDirectory = new File(path);
-        if (!dataDirectory.exists()) {
-        	System.out.println("Creating 'data' folder");
-        	dataDirectory.mkdir();
-        }
-
-        File readDirectory = new File(readPath);
-        if (!readDirectory.exists()) {
-        	readDirectory.mkdir();
-        }
-
-        File writeDirectory = new File(writePath);
-        if (!writeDirectory.exists()) {
-        	writeDirectory.mkdir();
-        }
+        verifyDataDirectory();
+        verifyReadDirectory();
+        verifyWriteDirectory();
 
         System.out.println("Start create listener");
         ListenerService listener = new ListenerService();
@@ -51,4 +39,26 @@ public class BusinessService {
             e.printStackTrace();
         }
     }
+
+	private void verifyWriteDirectory() {
+		File writeDirectory = new File(writePath);
+        if (!writeDirectory.exists()) {
+        	writeDirectory.mkdir();
+        }
+	}
+
+	private void verifyReadDirectory() {
+		File readDirectory = new File(readPath);
+        if (!readDirectory.exists()) {
+        	readDirectory.mkdir();
+        }
+	}
+
+	private void verifyDataDirectory() {
+		File dataDirectory = new File(path);
+        if (!dataDirectory.exists()) {
+        	System.out.println("Creating 'data' folder");
+        	dataDirectory.mkdir();
+        }
+	}
 }
