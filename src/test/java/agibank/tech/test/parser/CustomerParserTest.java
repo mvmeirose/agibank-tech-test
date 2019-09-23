@@ -18,7 +18,7 @@ import agibank.tech.test.model.Customer;
 
 public class CustomerParserTest {
 	
-	List<String> lines = new ArrayList<>();
+	private List<String> lines = new ArrayList<>();
 	
 	@Before
 	public void initialize() {

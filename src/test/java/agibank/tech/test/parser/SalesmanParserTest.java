@@ -20,6 +20,8 @@ import agibank.tech.test.model.Salesman;
 public class SalesmanParserTest {
 
 	List<String> lines = new ArrayList<>();
+	
+	private static final String SEPARATOR = "ç";
 
 	@Before
 	public void initialize() {
@@ -33,7 +35,7 @@ public class SalesmanParserTest {
 
 	@Test
     public void shouldParseSuccess() throws Exception {
-        Salesman s = SalesmanParser.parse(lines.get(0).split("ç"));
+        Salesman s = SalesmanParser.parse(lines.get(0).split(SEPARATOR));
 
         assertTrue(s.getName().equals("Pedro"));
         assertTrue(s.getCpf().equals("1234567891234"));
@@ -42,11 +44,11 @@ public class SalesmanParserTest {
 
     @Test(expected = Exception.class)
     public void shouldParseDataSizeException() throws Exception {
-    	Salesman s = SalesmanParser.parse(lines.get(1).split("ç"));
+    	Salesman s = SalesmanParser.parse(lines.get(1).split(SEPARATOR));
     }
 
     @Test(expected = Exception.class)
     public void shoulParseException() throws Exception {
-    	Salesman s = SalesmanParser.parse(lines.get(2).split("ç"));
+    	Salesman s = SalesmanParser.parse(lines.get(2).split(SEPARATOR));
     }
 }

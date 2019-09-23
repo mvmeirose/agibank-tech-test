@@ -2,19 +2,38 @@ package agibank.tech.test.parser;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import agibank.tech.test.model.ItemSale;
 
 public class SaleItemParserTest {
 
+	private List<String> lines = new ArrayList<>();
+
+	@Before
+	public void initialize() {
+		Path resourceDirectory = Paths.get("src","test","resources", "SaleItemTest.dat");
+        try (BufferedReader br = Files.newBufferedReader(resourceDirectory)) {
+        	lines = br.lines().collect(Collectors.toList());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Test
     public void shouldParseSuccess() throws Exception {
-        String line = "[1-10-100,2-30-2.50,3-40-3.10]";
-        List<ItemSale> itens = SaleItemParser.parseSale(line);
+        List<ItemSale> itens = SaleItemParser.parseSale(lines.get(0));
 
         ItemSale item1 = itens.get(0);
         assertTrue(item1.getId().equals(1L));
@@ -32,25 +51,13 @@ public class SaleItemParserTest {
         assertTrue(item3.getPrice().equals(new BigDecimal("3.10")));
     }
 
-    @Test
+    @Test(expected = Exception.class)
     public void shouldParseDataSizeException() throws Exception {
-    	String line = "[1-10-100,2-30-2.50,3-40]";
-    	String message = "Invalid sales item information";
-    	try {
-    		List<ItemSale> itens = SaleItemParser.parseSale(line);
-        } catch (Exception e) {
-            assertTrue(e.getMessage().equals(message));
-        }
+    	List<ItemSale> itens = SaleItemParser.parseSale(lines.get(1));
     }
 
-    @Test
-    public void shoulParseException() {
-        String line = "";
-        String message = "Sales item not found";
-        try {
-        	List<ItemSale> itens = SaleItemParser.parseSale(line);
-        } catch (Exception e) {
-            assertTrue(e.getMessage().equals(message));
-        }
+    @Test(expected = Exception.class)
+    public void shoulParseException() throws Exception {
+        List<ItemSale> itens = SaleItemParser.parseSale(lines.get(2));
     }
 }

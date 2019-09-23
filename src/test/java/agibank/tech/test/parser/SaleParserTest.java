@@ -20,7 +20,7 @@ import agibank.tech.test.model.Sale;
 
 public class SaleParserTest {
 	
-List<String> lines = new ArrayList<>();
+	private List<String> lines = new ArrayList<>();
 	
 	@Before
 	public void initialize() {
