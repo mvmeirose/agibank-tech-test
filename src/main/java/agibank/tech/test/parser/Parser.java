@@ -11,6 +11,11 @@ public class Parser implements IFileParser {
 
     private File file;
     private String path;
+    
+    private static final String SEPARATOR = "ç";
+    private static final String SALESMAN = "001";
+    private static final String CUSTOMER = "002";
+    private static final String SALE = "003";
 
     public Parser(String path){
         setPath(path);
@@ -39,14 +44,18 @@ public class Parser implements IFileParser {
 
         try {
             for (String line : lines) {
-                if(line.startsWith(IdentityTypeEnum.SALESMAN.getId())){
-                    file.addSalesman(SalesmanParser.parse(line));
-                } else if(line.startsWith(IdentityTypeEnum.CUSTOMER.getId())){
-                    file.addCustomer(CustomerParser.parse(line));
-                } else if(line.startsWith(IdentityTypeEnum.SALE.getId())){
-                    file.addSale(SaleParser.parse(line));
-                } else{
-                    throw new Exception("Invalid data");
+            	final String[] data = line.split(SEPARATOR);
+
+                switch (data[0]) {
+	                case SALESMAN:
+	                	file.addSalesman(SalesmanParser.parse(line));
+	                    break;
+	                case CUSTOMER:
+	                	file.addCustomer(CustomerParser.parse(line));
+	                    break;
+	                case SALE:
+	                	file.addSale(SaleParser.parse(line));
+	                    break;
                 }
             }
             System.out.println("File readed");
