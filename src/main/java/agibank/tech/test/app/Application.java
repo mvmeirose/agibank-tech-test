@@ -10,7 +10,7 @@ public class Application {
 			BusinessService service = new BusinessService();
 			service.check();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error running the application");
 		}
 	}
 }

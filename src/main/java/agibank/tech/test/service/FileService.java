@@ -44,7 +44,7 @@ public class FileService {
                 fileParser.writeFile(file);
             }
         } catch (Exception e) {
-            return;
+            System.out.println("Error reading lines of file");
         }
     }
 

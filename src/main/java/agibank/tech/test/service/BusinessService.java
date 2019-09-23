@@ -33,10 +33,8 @@ public class BusinessService {
 
         try {
         	listener.run(readPath);
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Error running the listener");
         }
     }
 

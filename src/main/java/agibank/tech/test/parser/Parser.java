@@ -1,10 +1,13 @@
 package agibank.tech.test.parser;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import agibank.tech.test.model.File;
-import agibank.tech.test.service.FileService;
 
 public class Parser implements IFileParser {
 
@@ -59,7 +62,7 @@ public class Parser implements IFileParser {
             }
             System.out.println("File readed");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error reading file");
         }
     }
 
@@ -67,17 +70,21 @@ public class Parser implements IFileParser {
     public void writeFile(String fileName) {
     	System.out.println("Start write result file");
         try {
-            String pathFile = path.concat("\\").concat(fileName.replace(".dat", ".result.dat"));
-
-            FileService service = new  FileService(pathFile);
-            service.writeLine(String.format("Quantidade de clientes no arquivo de entrada: %s", file.getCustomersQuantity()));
-            service.writeLine(String.format("Quantidade de vendedores no arquivo de entrada: %s", file.getSalesmenQuantity()));
-            service.writeLine(String.format("ID da venda mais cara: %s", file.getBiggestSale()));
-            service.writeLine(String.format("O pior vendedor: %s", file.getWorstSalesman().getName()));
-            service.close();
+        	Path pathFile = Paths.get(path.concat("\\").concat(fileName.replace(".dat", "-result.dat")));
+        	 
+        	try (BufferedWriter writer = Files.newBufferedWriter(pathFile)) {
+        	    writer.write(String.format("Quantidade de clientes no arquivo de entrada: %s", file.getCustomersQuantity()));
+        	    writer.newLine();
+        	    writer.write(String.format("Quantidade de vendedores no arquivo de entrada: %s", file.getSalesmenQuantity()));
+        	    writer.newLine();
+        	    writer.write(String.format("ID da venda mais cara: %s", file.getBiggestSale()));
+        	    writer.newLine();
+        	    writer.write(String.format("O pior vendedor: %s", file.getWorstSalesman().getName()));
+        	}
+        	
             System.out.println("Result file finished");
         } catch (IOException e) {
-            return;
+            System.out.println("Error writing the result file");
         }
     }
 }
