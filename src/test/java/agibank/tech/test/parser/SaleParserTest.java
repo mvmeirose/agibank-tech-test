@@ -2,20 +2,41 @@ package agibank.tech.test.parser;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import agibank.tech.test.model.ItemSale;
 import agibank.tech.test.model.Sale;
-import agibank.tech.test.util.IdentityTypeEnum;
 
 public class SaleParserTest {
+	
+List<String> lines = new ArrayList<>();
+	
+	@Before
+	public void initialize() {
+		Path resourceDirectory = Paths.get("src","test","resources", "SaleTest.dat");
+        try (BufferedReader br = Files.newBufferedReader(resourceDirectory)) {
+        	lines = br.lines().collect(Collectors.toList());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Test
     public void shouldParseSuccess() throws Exception {
-        String line = "003Á10Á[1-10-100,2-30-2.50,3-40-3.10]ÁPedro";
-        Sale v = SaleParser.parse(line);
+        Sale v = SaleParser.parse(lines.get(0).split("Á"));
+        
+        assertTrue(lines.size() == 3);
 
         assertTrue(v.getSalesmanName().equals("Pedro"));
         assertTrue(v.getId().equals(10L));
@@ -37,25 +58,13 @@ public class SaleParserTest {
         assertTrue(item3.getPrice().equals(new BigDecimal("3.10")));
     }
 
-    @Test
+    @Test(expected = Exception.class)
     public void shouldParseDataSizeException() throws Exception {
-    	String line = "003Á10Á[1-10-100,2-30-2.50,3-40-3.10]";
-    	String message = "Invalid sale information";
-    	try {
-    		Sale v = SaleParser.parse(line);
-        } catch (Exception e) {
-            assertTrue(e.getMessage().equals(message));
-        }
+    	Sale v = SaleParser.parse(lines.get(1).split("Á"));
     }
 
-    @Test
-    public void shoulParseException() {
-        String line = "004Á10Á[1-10-100,2-30-2.50,3-40-3.10]ÁPedro";
-        String message = "Invalid identifier, line must start with: " + IdentityTypeEnum.SALE.getId();
-        try {
-        	Sale v = SaleParser.parse(line);
-        } catch (Exception e) {
-            assertTrue(e.getMessage().equals(message));
-        }
+    @Test(expected = Exception.class)
+    public void shoulParseException() throws Exception {
+        Sale v = SaleParser.parse(lines.get(2).split("Á"));
     }
 }
