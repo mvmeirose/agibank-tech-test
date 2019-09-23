@@ -30,9 +30,9 @@ public class BusinessService {
         readPath = homeDir.concat(readPath);
         writePath =  homeDir.concat(writePath);
         
-        verifyDataDirectory();
-        verifyReadDirectory();
-        verifyWriteDirectory();
+        verifyDirectory(path);
+        verifyDirectory(readPath);
+        verifyDirectory(writePath);
 
         System.out.println("Start create listener");
         ListenerService listener = new ListenerService();
@@ -54,25 +54,10 @@ public class BusinessService {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
-	private void verifyWriteDirectory() {
-		File writeDirectory = new File(writePath);
-        if (!writeDirectory.exists()) {
-        	writeDirectory.mkdir();
-        }
-	}
-
-	private void verifyReadDirectory() {
-		File readDirectory = new File(readPath);
-        if (!readDirectory.exists()) {
-        	readDirectory.mkdir();
-        }
-	}
-
-	private void verifyDataDirectory() {
-		File dataDirectory = new File(path);
-        if (!dataDirectory.exists()) {
-        	System.out.println("Creating 'data' folder");
-        	dataDirectory.mkdir();
+	private void verifyDirectory(String path) {
+		File directory = new File(path);
+        if (!directory.exists()) {
+        	directory.mkdir();
         }
 	}
 }
