@@ -36,9 +36,7 @@ public class FileService {
             validateExtension(fileName);
 
             List<String> lines  = new ArrayList<>();
-            try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            	lines = stream.collect(Collectors.toList());
-    		}
+            lines = Files.lines(Paths.get(fileName)).collect(Collectors.toList());
 
             if(lines.size() > 0){
                 fileParser.readFile(lines);
