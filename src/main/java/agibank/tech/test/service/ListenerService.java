@@ -10,6 +10,9 @@ import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ListenerService {
 	
 	private List<FileService> fileServices;

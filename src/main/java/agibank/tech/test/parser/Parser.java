@@ -7,8 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import agibank.tech.test.model.File;
 
+@Component
 public class Parser implements IFileParser {
 
     private File file;

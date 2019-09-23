@@ -1,6 +1,5 @@
 package agibank.tech.test.service;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,8 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.stereotype.Component;
+
 import agibank.tech.test.parser.IFileParser;
 
+@Component
 public class FileService {
 
     private IFileParser fileParser;

@@ -4,8 +4,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import agibank.tech.test.model.ItemSale;
 
+@Component
 public class SaleItemParser {
 
     private static final String SALE_SEPARATOR = ",";
