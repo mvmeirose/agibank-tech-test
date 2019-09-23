@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import agibank.tech.test.parser.IFileParser;
 
@@ -33,8 +34,8 @@ public class FileService {
             validateExtension(fileName);
 
             List<String> lines  = new ArrayList<>();
-            try (BufferedReader br = Files.newBufferedReader(Paths.get(fileName))) {
-            	lines = br.lines().collect(Collectors.toList());
+            try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+            	lines = stream.collect(Collectors.toList());
     		}
 
             if(lines.size() > 0){
