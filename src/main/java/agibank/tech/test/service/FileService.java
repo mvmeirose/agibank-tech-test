@@ -2,14 +2,14 @@ package agibank.tech.test.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import agibank.tech.test.parser.IFileParser;
 
@@ -33,13 +33,9 @@ public class FileService {
             validateExtension(fileName);
 
             List<String> lines  = new ArrayList<>();
-            try (BufferedReader br = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    if(!line.isEmpty())
-                        lines.add(line);
-                }
-            }
+            try (BufferedReader br = Files.newBufferedReader(Paths.get(fileName))) {
+            	lines = br.lines().collect(Collectors.toList());
+    		}
 
             if(lines.size() > 0){
                 fileParser.readFile(lines);
